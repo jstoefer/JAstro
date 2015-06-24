@@ -1,0 +1,50 @@
+RadixWheel {
+    background-color: black;
+    border-image: url(../img/bg_saturn2.png);
+}
+
+SidePanel {
+    background-color: black;
+    border-image: url(../img/bg_saturn.png);
+}
+
+QLabel {
+    color: yellow;
+    font-family: "Lucida Sans"
+}
+
+QCheckBox {
+   color: yellow;
+   background-color: black;
+   font-family: "Lucida Sans"
+}
+
+QCheckBox::indicator {
+    width: 15px;
+    height: 15px;
+}
+
+QCheckBox::indicator:unchecked {
+    image: url(../img/checkbox-unchecked.png);
+}
+
+QToolTip {
+    color: black;
+    font-family: "Lucida Sans Mono";
+}
+
+QLabel {
+    background-color : black;
+    color : orange;
+    font-size: 9pt;
+    font-family: "Lucida Sans";
+}
+
+QLabel#heading {
+    font-size: 15pt;
+}
+
+QLabel#aspects {
+    color : orange;
+    font-size: 12pt;
+}

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/fonts">
+        <file>Astro-SemiBold.ttf</file>
+    </qresource>
+    <qresource prefix="/img"/>
+</RCC>

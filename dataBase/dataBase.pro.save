@@ -1,0 +1,18 @@
+######################################################################
+#
+# 	QMake Projectfile for the JAstro Database Lib
+#
+#	Author: Jan Stoefer, jan@stoefer.com
+#
+#	URL: www.jastro.net
+#
+######################################################################
+
+TEMPLATE = app
+TARGET = dataBase
+SOURCES += main.cpp
+include(dataBase.pri)
+
+OTHER_FILES += \
+    ../doc/dataBase.txt
+

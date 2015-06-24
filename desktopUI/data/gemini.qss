@@ -1,0 +1,38 @@
+RadixWheel {
+    background: white;
+}
+
+SidePanel {
+    background: white;
+}
+
+QLabel {
+    color: blue;
+    font-size: 9pt;
+    font-family: "Lucida Sans";
+}
+
+QLabel#heading {
+    font-size: 15pt;
+}
+
+QLabel#aspects {
+    color : orange;
+    font-size: 12pt;
+}
+
+QCheckBox {
+   color: blue;
+   font-family: "Lucida Sans"
+}
+
+QCheckBox::indicator {
+    width: 15px;
+    height: 15px;
+}
+
+QToolTip {
+    color: black;
+    font-family: "Lucida Sans Mono"
+}
+

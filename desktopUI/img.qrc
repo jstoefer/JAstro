@@ -1,0 +1,38 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/120px-Sun_symbol.svg.png</file>
+        <file>img/bg_saturn.png</file>
+        <file>img/bg_saturn2.png</file>
+        <file>img/checkbox-unchecked.png</file>
+        <file>img/combine.png</file>
+        <file>img/composite_pre.png</file>
+        <file>img/composite.png</file>
+        <file>img/couple_full.jpg</file>
+        <file>img/couple-icon.jpg</file>
+        <file>img/Database-Table-icon.png</file>
+        <file>img/db.png</file>
+        <file>img/logo_80.png</file>
+        <file>img/logo_100.png</file>
+        <file>img/logo.png</file>
+        <file>img/logo.svg</file>
+        <file>img/person.png</file>
+        <file>img/printer-icons.jpg</file>
+        <file>img/printer.png</file>
+        <file>img/saturn.png</file>
+        <file>img/settings-android.png</file>
+        <file>img/settings-green.png</file>
+        <file>img/Settings-icon-small.png</file>
+        <file>img/settings-icon.gif</file>
+        <file>img/Settings-icon.png</file>
+        <file>img/sun.png</file>
+        <file>img/synastrie.png</file>
+        <file>img/synastrie2.png</file>
+        <file>img/text.png</file>
+        <file>img/wheel.png</file>
+        <file>img/ying_yang.jpg</file>
+        <file>img/ying-yang-webxp1.jpg</file>
+        <file>img/yingyang1_pre.png</file>
+        <file>img/yingyang1.png</file>
+        <file>img/YinYang1.png</file>
+    </qresource>
+</RCC>

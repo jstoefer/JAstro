@@ -1,0 +1,9 @@
+Konzept Deployment:
+
+Inhalt von /data in Resourcedatei schreiben (.qrc) ausser Ephemeriden.
+Der Zugriff auf diese Resourcen funktioniert unter Qt Plattformübergreifend.
+Diese nachladen, nachdem das Programm installiert wurde, und unter
+"/sdcard/Jastro/data/" speichern.
+
+Fragen:
+        Gibt es in jedem Gerät einen Bereich "/sdcard" o.ä. ?
