@@ -22,13 +22,7 @@ public:
      */
     int getScore (int planet);
 
-    /**
-     * @brief print out planet score
-     */
-    void printScore ();
-
 protected:
-
 
 
 private:
@@ -49,6 +43,11 @@ private:
      * @param idxPlanet
      */
     void checkAspect (Aspect * asp, int nPlanet, int idxPlanet);
+
+    /**
+     * @brief debug print out planet score
+     */
+    void printScore ();
 
     Horoscope *m_h;             // horoscope from which the profile will be calculated
     int m_planet [2];           // should be either {SE_SUN, SE_MARS} or {SE_MOON, SE_VENUS}

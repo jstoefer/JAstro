@@ -3,14 +3,8 @@
         <file>data/Astro-SemiBold.ttf</file>
         <file>data/darkstyle.qss</file>
         <file>data/gemini.qss</file>
-        <file>data/orte_de_1.txt</file>
-        <file>data/orte_de_2.txt</file>
-        <file>data/personen_1.aph</file>
-        <file>data/seas_18.se1</file>
-        <file>data/semo_18.se1</file>
-        <file>data/sepl_18.se1</file>
-        <file>data/Sternwelten.aph</file>
-        <file>data/VIP-Philosophen_Weise.aph</file>
         <file>data/virgo.qss</file>
+        <file>data/wheel.ico</file>
+        <file>data/wheel.png</file>
     </qresource>
 </RCC>

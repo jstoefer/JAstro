@@ -1,3 +1,8 @@
+JAstroMainWindow {
+    background-color: black;
+    border-image: url(../img/bg_saturn2.png);
+}
+
 RadixWheel {
     background-color: black;
     border-image: url(../img/bg_saturn2.png);

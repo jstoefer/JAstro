@@ -4,7 +4,7 @@
 /*----------------------------------------------------------------------------------------------*/
 
 
-RadixWheel::RadixWheel (Horoscope * horoscope, bool mobileUI, QWidget *parent) : QFrame (parent) {
+RadixWheel::RadixWheel (Horoscope * horoscope, bool mobileUI, QWidget *parent) : QWidget (parent) {
 
     this->mobileUI = mobileUI;
 
@@ -36,21 +36,11 @@ RadixWheel::RadixWheel (Horoscope * horoscope, bool mobileUI, QWidget *parent) :
     synastrieAxisAspects        = FALSE;
     synastrieAxisReverse        = FALSE;
 
-
-    // load images from resource file
-    QString imgPath = ":/img/";
-
-    qDebug() << "imgPath =" << imgPath;
-
-    QIcon windowIcon  = QIcon(imgPath+"composite.png");
-
-    /* set application icon                         */
-    this->setWindowIcon(windowIcon);
 }
 
 /*----------------------------------------------------------------------------------------------*/
 
-RadixWheel::RadixWheel(bool mobileUI, QWidget *parent) : QFrame(parent) {
+RadixWheel::RadixWheel(bool mobileUI, QWidget *parent) : QWidget(parent) {
 
     this->mobileUI = mobileUI;
 
@@ -73,14 +63,14 @@ RadixWheel::RadixWheel(bool mobileUI, QWidget *parent) : QFrame(parent) {
     synastrieAxisReverse        = FALSE;
 
     // load images from resource file
-    QString imgPath = ":/img/";
+    // QString imgPath = ":/img/";
 
-    qDebug() << "imgPath =" << imgPath;
+    // qDebug() << "imgPath =" << imgPath;
 
-    QIcon windowIcon  = QIcon(imgPath+"composite.png");
+    // QIcon windowIcon  = QIcon(imgPath+"composite.png");
 
     /* set application icon                         */
-    this->setWindowIcon(windowIcon);
+    // this->setWindowIcon(windowIcon);
 }
 
 /*----------------------------------------------------------------------------------------------*/

@@ -2,12 +2,13 @@
 #define CONTROLLER_H
 
 #include <qtimer.h>
+#include "jastromainwindow.h"
+#include "datatable.h"
 #include "muiwin.h"
 #include "radixwheel.h"
 #include "sidepanel.h"
 #include "persondb.h"
 #include "locationdb.h"
-#include "partnerprofile.h"
 #include <QMoveEvent>
 #include <QObject>
 #include <QStringList>
@@ -39,7 +40,7 @@ class Controller : public QObject {
         /**
          * @brief emitted after a new horoscope has been calculated
          */
-        void radixCalculated ();
+        void radixCalculated (Horoscope *);
 
     public slots:
         void correctOwnSize(void);
@@ -48,7 +49,8 @@ class Controller : public QObject {
         void moveInPanel(void);
         void onMainWidgetClose(void);
         void onMainWidgetMove (QMoveEvent * event);
-        void onMainWidgetClicked(QMouseEvent * event);
+        void onWheelClicked(QMouseEvent * event);
+        void onMainWidgetClicked (QMouseEvent * event);
         void animatePanelMovement (bool in);
         void searchLocation (QString searchString);
         void setLocation (int index);
@@ -60,7 +62,6 @@ class Controller : public QObject {
         void calculateComposite (void);
         void calculateCombine (void);
         void calculateSolar(void);
-        void calculatePartnerProfile(void);
         void updateRadices (QStringList radices);
         void updatePartners (QStringList radices);
         void updateComposites (QStringList radices);
@@ -160,6 +161,8 @@ class Controller : public QObject {
         QRect appRect, screenSize;      /* av. size for app, screen size        */
         int minSize;                    /* smaller one of width / height        */
 
+        JAstroMainWindow * mainwin;     /* main window desktop ui               */
+        DataTable * table;              /* widget for radix data etc.           */
         MUIWin * muiwin;                /* main window mobile ui                */
         RadixWheel * wheel;
         SidePanel * panel;
@@ -169,8 +172,6 @@ class Controller : public QObject {
         Horoscope *h2;                  /* partner horoscope synastry           */
         Horoscope *h3;                  /* composite horoscope                  */
         Horoscope *h4;                  /* combine horoscope                    */
-
-        PartnerProfile *partnerProfile; /* Partner Profile                      */
 
         QTimer *timer;
         bool panelOut, panelInstantiated;

@@ -1,3 +1,7 @@
+JAstroMainWindow {
+    background: white;
+}
+
 RadixWheel {
     background: white;
 }

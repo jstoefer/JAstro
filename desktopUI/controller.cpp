@@ -70,7 +70,7 @@ Controller::Controller() {
         /* resize main window a little bit because we don't have any window frame               */
         qDebug() << "using mobile UI";
         QTimer::singleShot(50, this, SLOT(correctOwnSize()));
-    #else {
+    #else
         /* use desktop UI !                                                                     */
         qDebug() << "Using desktop UI" << endl;
     #endif
@@ -103,17 +103,27 @@ Controller::Controller() {
 
         /* Start the desktop UI !                               */
 
-        this->wheel = new RadixWheel(h, mobileUI);
-        this->wheel->resize(minSize -60, minSize -60);
-        this->wheel->show();
+        this->mainwin = new JAstroMainWindow ();
+        this->wheel = new RadixWheel(h, mobileUI, mainwin);
+        this->table = new DataTable (mainwin);
+        int wn = mainwin->addWidget(wheel);
+        qDebug() << "adding widget as no " << wn;
+        wn = mainwin->addWidget(table);
+        qDebug() << "adding widget as no " << wn;
+        mainwin->resize(minSize -60, minSize -60);
+        mainwin->show();
+
         this->panelInstantiated = FALSE;
         this->timer = new QTimer( this );
 
-        connect(this->wheel, SIGNAL(wheelClosed()),this, SLOT(onMainWidgetClose()));
-        connect(this->wheel, SIGNAL(wheelMoved(QMoveEvent * )),
+        connect(this->mainwin, SIGNAL(mainwinClosed()),this, SLOT(onMainWidgetClose()));
+
+        connect(this->mainwin, SIGNAL(mainwinMoved(QMoveEvent * )),
                 this, SLOT(onMainWidgetMove(QMoveEvent * )));
+        connect(this->mainwin, SIGNAL(mainwinClicked(QMouseEvent * )),
+                 this, SLOT(onMainWidgetClicked(QMouseEvent * )));
         connect(this->wheel, SIGNAL(wheelClicked(QMouseEvent * )),
-                this, SLOT(onMainWidgetClicked(QMouseEvent * )));
+                this, SLOT(onWheelClicked(QMouseEvent * )));
         connect(this->wheel, SIGNAL(finishedPrinting()),
                 this, SLOT(setTheme()));
         this->setTheme("Saturnia");
@@ -124,14 +134,14 @@ Controller::Controller() {
 /*----------------------------------------------------------------------------------------------*/
 
 void Controller::correctOwnSize(void) {
-    this->wheel->resize(minSize, minSize);
+    this->mainwin->resize(minSize, minSize);
     this->timer->disconnect();
 }
 
 /*----------------------------------------------------------------------------------------------*/
 
 void Controller::setPanelSize(QSize size) {
-    this->panel->resize(panel->width(), size.height());
+    this->panel->resize(panel->width(), size.height()-4);
     if (this->panelInstantiated) {
         animatePanelMovement (FALSE);
         panelOut = FALSE;
@@ -199,24 +209,24 @@ void Controller::animatePanelMovement (bool out) {
     if (out) {
         connect( this->timer, SIGNAL(timeout()), this, SLOT(moveOutPanel()) );
         disconnect( this->timer, SIGNAL(timeout()), this, SLOT(moveInPanel()) );
-        this->wheel->activateWindow();      /* these two method nedd to be called to put the main     */
+        this->wheel->activateWindow();      /* these two methods need to be called to put the main    */
         this->wheel->raise();               /* window on top again                                    */
-        this->timer->start(20); // 20 mseconds single-shot timer
+        this->timer->start(20);             /* 20 mseconds single-shot timer                          */
     } else {
         connect( this->timer, SIGNAL(timeout()), this, SLOT(moveInPanel()) );
         disconnect( this->timer, SIGNAL(timeout()), this, SLOT(moveOutPanel()) );
-        this->wheel->activateWindow();      /* these two method nedd to be called to put the main     */
+        this->wheel->activateWindow();      /* these two methods need to be called to put the main    */
         this->wheel->raise();               /* window on top again                                    */
-        this->timer->start(20); // 20 mseconds single-shot timer
+        this->timer->start(20);             /* 20 mseconds single-shot timer                          */
     }
 }
 
 /*----------------------------------------------------------------------------------------------*/
 
 void Controller::moveOutPanel(void) {
-    int x1 = wheel->x()+wheel->width() + 10;
+    int x1 = mainwin->x()+mainwin->width() + 10;
     int x = panel->x() + (x1 - panel->x())/6 + 1;
-    this->panel->move(x, wheel->y());
+    this->panel->move(x, mainwin->y());
     if ((x1 -panel->x()) < 1) {
         this->timer->stop();
     }
@@ -225,9 +235,9 @@ void Controller::moveOutPanel(void) {
 /*----------------------------------------------------------------------------------------------*/
 
 void Controller::moveInPanel(void) {
-    int x1 = wheel->x() + wheel->width() -panel->width();
+    int x1 = mainwin->x() + mainwin->width() -panel->width();
     int x = panel->x() - (panel->x() -x1)/6 - 1;
-    this->panel->move(x, wheel->y());
+    this->panel->move(x, mainwin->y());
     if ((panel->x()-x1) < 1) {
         this->timer->stop();
     }
@@ -245,9 +255,9 @@ void Controller::onMainWidgetMove (QMoveEvent * event) {
     // QPoint newPosition = event->pos();
     if (panelInstantiated) {
         if (panelOut) {
-            this->panel->move(this->wheel->x() +this->wheel->width() + 10, this->wheel->y());
+            this->panel->move(this->mainwin->x() +this->mainwin->width() + 10, this->mainwin->y());
         } else {
-            this->panel->move(this->wheel->x() +this->wheel->width() -this->panel->width(), this->wheel->y());
+            this->panel->move(this->mainwin->x() +this->mainwin->width() -this->panel->width(), this->mainwin->y());
         }
     }
 }
@@ -291,15 +301,8 @@ void Controller::calculateRadix (void) {
     }
     this->wheel->setSolarYear(date.currentDate().year());
 
-    emit (radixCalculated());
+    emit (radixCalculated(this->h));
 
-}
-
-/*----------------------------------------------------------------------------------------------*/
-
-void Controller::calculatePartnerProfile() {
-    int partnerPlanets[2] = {SE_MOON, SE_VENUS};
-    this->partnerProfile = new PartnerProfile (this->h, partnerPlanets);
 }
 
 /*----------------------------------------------------------------------------------------------*/
@@ -734,7 +737,7 @@ void Controller::clearRadixData() {
 
 /*----------------------------------------------------------------------------------------------*/
 
-void Controller::onMainWidgetClicked(QMouseEvent * event) {
+void Controller::onWheelClicked(QMouseEvent * event) {
 
     if (panelInstantiated == FALSE) {
         this->panel = new SidePanel();
@@ -773,7 +776,7 @@ void Controller::onMainWidgetClicked(QMouseEvent * event) {
         connect(this->panel->buttonOk, SIGNAL(clicked()), this->wheel, SLOT(hidePartner()));        
         connect(this->panel->buttonStore, SIGNAL(clicked()), this, SLOT(saveRadix()));
 
-        connect(this, SIGNAL(radixCalculated()), this, SLOT (calculatePartnerProfile()));
+        connect(this, SIGNAL(radixCalculated(Horoscope *)), this->table, SLOT (calculatePartnerProfiles(Horoscope *)));
 
         /* Connect transit date edit and transit time edit              */
         connect(this->panel->transitDateEdit, SIGNAL(dateChanged(const QDate)),
@@ -833,7 +836,7 @@ void Controller::onMainWidgetClicked(QMouseEvent * event) {
         connect(this->panel->bCommitSettings, SIGNAL(clicked()), this, SLOT(setTheme()));
 
         /* adjust panel height to wheel hight if that changed           */
-        connect(this->wheel, SIGNAL(wheelResized(QSize)), this, SLOT(setPanelSize(QSize)));
+        connect(this->mainwin, SIGNAL(mainwinResized(QSize)), this, SLOT(setPanelSize(QSize)));
 
     }
 
@@ -847,13 +850,18 @@ void Controller::onMainWidgetClicked(QMouseEvent * event) {
 
 
     if (rEvent < 0.9*r) {
-        /* Control Sidepanel movement                       */
-        if (panelOut == FALSE) {
-            animatePanelMovement (TRUE);
-            panelOut = TRUE;
-        } else {
-            animatePanelMovement (FALSE);
-            panelOut = FALSE;
+        if (event->button()== Qt::LeftButton) {
+            /* Control Sidepanel movement                           */
+            if (panelOut == FALSE) {
+                animatePanelMovement (TRUE);
+                panelOut = TRUE;
+            } else {
+                animatePanelMovement (FALSE);
+                panelOut = FALSE;
+            }
+        } else if (event->button()== Qt::RightButton) {
+            /* Replace Radix Wheel with Table                       */
+            mainwin->setCurrentWidget(this->table);
         }
     } else {
         if (event->button()== Qt::RightButton) {
@@ -923,6 +931,34 @@ void Controller::onMainWidgetClicked(QMouseEvent * event) {
         this->wheel->update();
     }
     this->panelInstantiated = TRUE;
+}
+
+/*----------------------------------------------------------------------------------------------*/
+
+void Controller::onMainWidgetClicked (QMouseEvent * event) {
+
+    int x = event->x();
+    int y = event->y();
+
+    int d = qMin(this->table->width(), this->table->height());
+    int r = d/2;
+    int rEvent = sqrt( pow ( (x-r), 2) + pow ((y-r), 2));
+
+    if (rEvent < 0.9*r) {
+        if (event->button()== Qt::LeftButton) {
+            /* Control Sidepanel movement                           */
+            if (panelOut == FALSE) {
+                animatePanelMovement (TRUE);
+                panelOut = TRUE;
+            } else {
+                animatePanelMovement (FALSE);
+                panelOut = FALSE;
+            }
+        } else if (event->button()== Qt::RightButton) {
+            /* Replace Radix Wheel with Table                       */
+            mainwin->setCurrentWidget(this->wheel);
+        }
+    }
 }
 
 /*----------------------------------------------------------------------------------------------*/

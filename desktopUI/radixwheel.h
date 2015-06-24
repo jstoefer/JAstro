@@ -22,7 +22,7 @@
 
 #define PI 3.14159265
 
-class RadixWheel : public QFrame {
+class RadixWheel : public QWidget {
 
     Q_OBJECT
 

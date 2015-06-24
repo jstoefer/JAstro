@@ -8,14 +8,18 @@ HEADERS +=  radixwheel.h \
             sidepanel.h \
             controller.h \
             customqdateedit.h \
-            muiwin.h
+            muiwin.h \
+    jastromainwindow.h \
+    datatable.h
 
 SOURCES +=  radixwheel.cpp \
             sidepanel.cpp \
             controller.cpp \
             customqdateedit.cpp \
             main.cpp \
-            muiwin.cpp
+            muiwin.cpp \
+    jastromainwindow.cpp \
+    datatable.cpp
 
 LIBS += -L../swisseph -L../dataBase -L../jastroObj -lswe -ldb -ljao
 
@@ -34,5 +38,5 @@ ANDROID_EXTRA_LIBS += /home/jan/workspace/build-jastro-Android_Qt_5_3_0-Debug/da
 ANDROID_EXTRA_LIBS += /home/jan/workspace/build-jastro-Android_Qt_5_3_0-Debug/jastroObj/libjao.so
 
 RESOURCES += \
-    data.qrc \
-    img.qrc
+    img.qrc \
+    data.qrc

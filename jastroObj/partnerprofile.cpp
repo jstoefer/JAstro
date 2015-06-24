@@ -2,7 +2,7 @@
 
 PartnerProfile::PartnerProfile(Horoscope *h, int planet[2]) {
 
-    qDebug() << "PartnerProfile::PartnerProfile";
+    qDebug() << "PartnerProfile of " << h->name;
 
     this->m_h = h;              // store reference to horoscope
 
@@ -22,7 +22,7 @@ PartnerProfile::PartnerProfile(Horoscope *h, int planet[2]) {
 
 void PartnerProfile::calculateScores() {
 
-    qDebug() << "PartnerProfile::calculateScores";
+    // qDebug() << "PartnerProfile::calculateScores";
 
     // loop over partner planets
     for (int idxPlanet = 0; idxPlanet < 2; idxPlanet++) {
@@ -112,7 +112,7 @@ void PartnerProfile::calculateScores() {
 
     qDebug() << "\n\n";
 
-    printScore();
+    // printScore();
 
 }
 
@@ -181,23 +181,30 @@ void PartnerProfile::checkAspect (Aspect * asp, int nPlanet, int idxPlanet) {
         if (asp->deviation < asp->orbis) {
             if ( (asp->angle == 0) ||  (asp->angle == 90) ||  (asp->angle == 180) ){
                 qDebug() << planetNames[nPlanet] << " has analytic aspect of " << asp->angle << "° with " << planetNames[nPlanet2];
+                qDebug() << "adding 15";
                 score = 15;
             }
             if ( (asp->angle == 150) ||  (asp->angle == 45) ||  (asp->angle == 135) ){
                 qDebug() << planetNames[nPlanet] << " has weak analytic aspect of " << asp->angle << "° with " << planetNames[nPlanet2];
+                qDebug() << "adding 5";
                 score = 5;
             }
             if ( (asp->angle == 60) ||  (asp->angle == 120) ){
                 qDebug() << planetNames[nPlanet] << " has synthetic aspect of " << asp->angle << "° with " << planetNames[nPlanet2];
+                qDebug() << "adding 5";
                 score = 5;
             }
-            //if (nPlanet2 == ) {
-            //    this->m_profile[nPlanet2] += score;       // add score for ruler of planets sign
-            //}
+            this->m_profile[nPlanet2] += score;       // add score for aspecting planet
         }
     }
 }
 
+
+/*----------------------------------------------------------------------------------------------*/
+
+int PartnerProfile::getScore (int planet) {
+    return m_profile[planet];
+}
 
 /*----------------------------------------------------------------------------------------------*/
 
